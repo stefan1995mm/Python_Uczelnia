@@ -4,6 +4,7 @@ class Pupil:
         self.surname = nazwisko
         self.marks = {}
         self.oceny = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6]
+
     @property
     def name(self):
         return self._name
@@ -35,8 +36,8 @@ class Pupil:
             self._surname = nowe_nazwisko
 
     def print_marks(self):
-        for x in self.marks.keys():
-            print(x + "\t\t" + str(self.marks[x]))
+        for x, y in self.marks.items():
+            print(x + "\t\t" + str(y))
 
     def mean(self):
         mean = 0
@@ -57,35 +58,28 @@ class Pupil:
         return opis
 
 
-class Student:
+class Student(Pupil):
+    def __init__(self, imie, nazwisko):
+        super().__init__(imie, nazwisko)
+        self.weights = {}
 
+    def complete_weights(self, przedmiot, waga):
+        if 0 < waga <= 1:
+            self.weights[przedmiot] = waga
+        else:
+            print("Zla waga")
 
-# klasa = Pupil("J",3)
-klasa = Pupil("Jan", "Kowalski")
-# klasa.name = ""
-# print(klasa.name)
-# klasa.name = 3
-# print(klasa.name)
-# klasa.name = "ja"
-# print(klasa.name)
-# klasa.name = "Andrzej"
-# print(klasa.name)
-# klasa.surname = ""
-# print(klasa.surname)
-# klasa.surname = 3
-# print(klasa.surname)
-# klasa.surname = "ja"
-# print(klasa.surname)
-# klasa.surname = "Nowak"
-# print(klasa.surname)
-# klasa.print_marks()
-# klasa.complete_marks("Polski", 4.2)
-# klasa.complete_marks(3, "ang")
-# klasa.complete_marks("test", "ang")
-# klasa.complete_marks(3, 5)
-klasa.complete_marks("Polski", 4)
-klasa.complete_marks("Angielski", 3)
-klasa.complete_marks("Matematyka", 3.5)
-klasa.complete_marks("Fizyka", 6)
-# klasa.print_marks()
-print(klasa)
+    def mean(self):
+        weights = 0
+        marks = 0
+        for key, value in self.marks.items():
+            if key in self.weights.keys():
+                weights += self.weights[key]
+                marks += self.marks[key] * self.weights[key]
+            else:
+                print("Brak oceny")
+        return marks / weights
+
+    def __str__(self):
+        opis = "Imie " + super().__str__()
+        return opis
