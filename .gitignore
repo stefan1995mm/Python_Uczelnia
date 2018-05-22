@@ -157,4 +157,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 .idea
-TestUczelnia
+TestUczelnia/Test.py
