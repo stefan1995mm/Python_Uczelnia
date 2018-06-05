@@ -1,10 +1,11 @@
 class Garage:
-    lista = []
 
-    def __init__(self, adres="Unknown", pojemnosc=0, liczba_samochodow=0):
+
+    def __init__(self, adres="Unknown", pojemnosc=0):
         self.adres = adres
         self.pojemnosc = pojemnosc
-        self.liczba_samochodow = liczba_samochodow
+        self.liczba_samochodow = 0
+        self.lista = []
 
     def __str__(self):
         opis = "Adres: " + self.adres
@@ -16,17 +17,17 @@ class Garage:
         return opis
 
     def dodaj_samochod(self, samochod):
-        if self._liczba_samochodow < self._pojemnosc:
-            self._lista.append(samochod)
-            self._liczba_samochodow += 1
+        if self.liczba_samochodow < self._pojemnosc:
+            self.lista.append(samochod)
+            self.liczba_samochodow += 1
         else:
             print("Brak miejsca w garażu")
 
     def usun_samochod(self, numer_rejestracyjny):
-        for x in self._lista:
+        for x in self.lista:
             if x.numer_rejestracyjny == numer_rejestracyjny:
-                self._lista.remove(x)
-                self._liczba_samochodow -= 1
+                self.lista.remove(x)
+                self.liczba_samochodow -= 1
 
     @property
     def adres(self):
@@ -56,14 +57,14 @@ class Garage:
 
 
 class Person:
-    lista_samochodow = []
 
-    def __init__(self, imie="Unknown", nazwisko="Unknown", adres="Unknown", garaz=Garage()):
+
+    def __init__(self, imie="Unknown", nazwisko="Unknown", adres="Unknown"):
+        self.lista_samochodow = []
         self.imie = imie
         self.nazwisko = nazwisko
         self.adres = adres
-        self.garaz = garaz
-        self.garaz.adres = adres
+        self.garaz = Garage(adres,3)
 
     def __str__(self):
         opis = "Imie " + self.imie
@@ -73,15 +74,15 @@ class Person:
         return opis
 
     def dodaj_samochod_person(self, samochod):
-        if len(self._lista_samochodow) < 4:
-            self._lista_samochodow.append(samochod.numer_rejestracyjny)
-            self._garaz.dodaj_samochod(samochod)
+        if len(self.lista_samochodow) < 4:
+            self.lista_samochodow.append(samochod.numer_rejestracyjny)
+            self.garaz.dodaj_samochod(samochod)
         else:
             print("Nie mozna mieć w garażu wiecej jak 3 samochody")
 
     def usun_samochod_person(self, numer_rejestracyjny):
-        self._lista_samochodow.remove(numer_rejestracyjny)
-        self._garaz.usun_samochod(numer_rejestracyjny)
+        self.lista_samochodow.remove(numer_rejestracyjny)
+        self.garaz.usun_samochod(numer_rejestracyjny)
 
 
 class Car:
@@ -197,3 +198,5 @@ class Car:
             print("Najpierw ustaw spalanie")
         else:
             print("{0:.2f}".format(trasa * (self._spalanie / 100) * cena_paliwa))
+
+
